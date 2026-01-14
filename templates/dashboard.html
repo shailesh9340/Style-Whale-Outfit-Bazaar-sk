@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">View Website</a>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Add New Outfit</h2>
+        <form method="POST" enctype="multipart/form-data">
+            Name: <input type="text" name="name" required><br><br>
+            Link: <input type="text" name="link" required><br><br>
+            Category: 
+            <select name="category">
+                <option value="boys">Boys</option>
+                <option value="girls">Girls</option>
+            </select><br><br>
+            Image: <input type="file" name="image" required><br><br>
+            <input type="submit" value="Add Outfit">
+        </form>
+    </section>
+
+    <section>
+        <h2>All Outfits</h2>
+        <div class="container">
+            {% for outfit in outfits %}
+            <div class="card">
+                <img src="{{ outfit.image }}" alt="{{ outfit.name }}">
+                <h3>{{ outfit.name }}</h3>
+                <p>{{ outfit.category }}</p>
+                <a href="{{ outfit.link }}" target="_blank">Buy Now</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</body>
+</html>
