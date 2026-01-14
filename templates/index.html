@@ -1,8 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Style Whale & Outfit Bazaar</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a2e0b5f3c3.js" crossorigin="anonymous"></script>
+
+    <style>
+        body { font-family: 'Roboto', sans-serif; margin:0; padding:0; background:#f9f9f9; }
+        header.top-header { display:flex; justify-content:space-between; align-items:center; padding:15px 30px; background:#222; color:#fff; flex-wrap:wrap; }
+        header .site-title { font-size: 1.8rem; font-weight:700; }
+        nav a { color:#fff; margin:0 10px; text-decoration:none; font-weight:500; }
+        nav a:hover { text-decoration:underline; }
+        
+        .help-dropdown { position:relative; display:inline-block; }
+        .help-btn { background:#ff6b81; border:none; padding:8px 12px; color:#fff; cursor:pointer; border-radius:5px; font-weight:500; }
+        .help-content { display:none; position:absolute; right:0; background:#fff; color:#222; min-width:220px; padding:10px; box-shadow:0 2px 8px rgba(0,0,0,0.2); border-radius:5px; z-index:100; }
+        .help-dropdown.active .help-content { display:block; }
+
+        /* Carousel */
+        .carousel { position:relative; overflow:hidden; max-width:100%; margin:20px auto; border-radius:10px; }
+        .carousel img { width:100%; display:none; border-radius:10px; transition: all 0.5s ease-in-out; }
+        .carousel img.active { display:block; }
+
+        /* Filters */
+        .filters { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:20px; }
+        .filters input[type="text"], .filters select { padding:8px 12px; border-radius:5px; border:1px solid #ccc; font-size:1rem; }
+        .filters input[type="submit"] { padding:8px 15px; border:none; background:#ff6b81; color:#fff; border-radius:5px; cursor:pointer; font-weight:500; }
+        .filters input[type="submit"]:hover { background:#ff4757; }
+
+        /* Product Cards */
+        .category { margin:30px; }
+        .category h2 { text-align:center; margin-bottom:20px; font-size:1.8rem; color:#222; }
+        .products { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; }
+        .card { background:#fff; padding:15px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center; transition:transform 0.2s; }
+        .card:hover { transform:scale(1.05); }
+        .product-img { width:100%; border-radius:10px; cursor:pointer; transition:transform 0.3s; }
+        .product-img:hover { transform:scale(1.05); }
+        .wishlist { background:none; border:none; cursor:pointer; font-size:1.2rem; color:#ff4757; margin-bottom:10px; }
+        .card a { display:inline-block; margin-top:10px; padding:8px 15px; background:#1e90ff; color:#fff; text-decoration:none; border-radius:5px; transition:0.3s; }
+        .card a:hover { background:#3742fa; }
+
+        /* Modal */
+        .modal { display:none; position:fixed; z-index:1000; padding-top:60px; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.8); }
+        .modal-content { margin:auto; display:block; max-width:80%; border-radius:10px; }
+        .close { position:absolute; top:20px; right:35px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; transition:0.3s; }
+        .close:hover { color:#ff4757; }
+        #caption { text-align:center; color:#fff; font-size:1.2rem; padding:10px 0; }
+
+        @media(max-width:600px){
+            header.top-header { flex-direction:column; text-align:center; }
+            .filters { flex-direction:column; }
+        }
+    </style>
 </head>
 <body>
 
@@ -12,9 +68,8 @@
         <h1 class="site-title">STYLE WHALE & OUTFIT BAZAAR</h1>
     </div>
     <div class="header-right">
-        <!-- Help button with dropdown -->
         <div class="help-dropdown">
-            <button class="help-btn">Help ▼</button>
+            <button class="help-btn"><i class="fas fa-question-circle"></i> Help ▼</button>
             <div class="help-content">
                 <p>Contact Us: <a href="mailto:shaileshkumarchauhan9340@gmail.com">shaileshkumarchauhan9340@gmail.com</a></p>
             </div>
@@ -64,13 +119,12 @@
     <div class="products">
         {% for outfit in outfits if outfit.category == 'boys' %}
         <div class="card">
-            <div class="card">
-    <img src="{{ outfit.image }}" alt="{{ outfit.name }}" class="product-img" onclick="openModal('{{ outfit.image }}', '{{ outfit.name }}')">
-    <h3>{{ outfit.name }}</h3>
-    <p>₹ {{ outfit.price }}</p>
-    {% if session.get('customer') %}<button class="wishlist">❤</button>{% endif %}
-    <a href="{{ outfit.link }}" target="_blank">Buy Now</a>
-</div>
+            <img src="{{ outfit.image }}" alt="{{ outfit.name }}" class="product-img" onclick="openModal('{{ outfit.image }}', '{{ outfit.name }}')">
+            <h3>{{ outfit.name }}</h3>
+            <p>₹ {{ outfit.price }}</p>
+            {% if session.get('customer') %}<button class="wishlist">❤</button>{% endif %}
+            <a href="{{ outfit.link }}" target="_blank">Buy Now</a>
+        </div>
         {% endfor %}
     </div>
 </section>
@@ -81,62 +135,55 @@
     <div class="products">
         {% for outfit in outfits if outfit.category == 'girls' %}
         <div class="card">
-    <img src="{{ outfit.image }}" alt="{{ outfit.name }}" class="product-img" onclick="openModal('{{ outfit.image }}', '{{ outfit.name }}')">
-    <h3>{{ outfit.name }}</h3>
-    <p>₹ {{ outfit.price }}</p>
-    {% if session.get('customer') %}<button class="wishlist">❤</button>{% endif %}
-    <a href="{{ outfit.link }}" target="_blank">Buy Now</a>
-</div>
+            <img src="{{ outfit.image }}" alt="{{ outfit.name }}" class="product-img" onclick="openModal('{{ outfit.image }}', '{{ outfit.name }}')">
+            <h3>{{ outfit.name }}</h3>
+            <p>₹ {{ outfit.price }}</p>
+            {% if session.get('customer') %}<button class="wishlist">❤</button>{% endif %}
+            <a href="{{ outfit.link }}" target="_blank">Buy Now</a>
+        </div>
         {% endfor %}
     </div>
 </section>
 
-<!-- ===== CAROUSEL SCRIPT ===== -->
-<script>
-let slides = document.querySelectorAll(".slide");
-let index = 0;
-
-setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
-}, 3000);
-</script>
-<!-- ===== CAROUSEL / PRODUCTS / FILTERS etc. sab tumhara purana code ===== -->
-
-<!-- ===== HELP BUTTON DROPDOWN SCRIPT ===== -->
-<script>
-const helpBtn = document.querySelector(".help-btn");
-const helpDropdown = document.querySelector(".help-dropdown");
-
-helpBtn.addEventListener("click", () => {
-    helpDropdown.classList.toggle("active");
-});
-
-// Click outside to close dropdown
-document.addEventListener("click", function(event) {
-    if (!helpDropdown.contains(event.target)) {
-        helpDropdown.classList.remove("active");
-    }
-});
-</script>
-
-<!-- Product Image Modal -->
+<!-- ===== IMAGE MODAL ===== -->
 <div id="imgModal" class="modal">
   <span class="close" onclick="closeModal()">&times;</span>
   <img class="modal-content" id="modalImg">
   <div id="caption"></div>
 </div>
-<script>
-function openModal(imgSrc, name) {
-    document.getElementById("imgModal").style.display = "block";
-    document.getElementById("modalImg").src = imgSrc;
-    document.getElementById("caption").innerHTML = name;
-}
 
-function closeModal() {
-    document.getElementById("imgModal").style.display = "none";
-}
+<!-- ===== SCRIPTS ===== -->
+<script>
+    // Carousel
+    let slides = document.querySelectorAll(".slide");
+    let index = 0;
+    setInterval(() => {
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+    }, 3000);
+
+    // Help Dropdown
+    const helpBtn = document.querySelector(".help-btn");
+    const helpDropdown = document.querySelector(".help-dropdown");
+    helpBtn.addEventListener("click", () => {
+        helpDropdown.classList.toggle("active");
+    });
+    document.addEventListener("click", function(event) {
+        if (!helpDropdown.contains(event.target)) {
+            helpDropdown.classList.remove("active");
+        }
+    });
+
+    // Image Modal
+    function openModal(imgSrc, name) {
+        document.getElementById("imgModal").style.display = "block";
+        document.getElementById("modalImg").src = imgSrc;
+        document.getElementById("caption").innerHTML = name;
+    }
+    function closeModal() {
+        document.getElementById("imgModal").style.display = "none";
+    }
 </script>
 </body>
 </html>
