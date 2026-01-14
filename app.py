@@ -16,10 +16,18 @@ ADMIN_PASSWORD = "1234"
 
 # Sample outfits (initial)
 outfits = [
-    {"category": "boys wear"},
-    {"category": "girls wear"}
-]
+    {"category": "boys wear - shirt"},
+    {"category": "boys wear - pant"},
+    {"category": "boys wear - jeans"},
+    {"category": "boys wear - t-shirts"},
+    {"category": "boys wear - watches"},
 
+    {"category": "girls wear - kurti"},
+    {"category": "girls wear - dress"},
+    {"category": "girls wear - tops"},
+    {"category": "girls wear - jeans"},
+    {"category": "girls wear - watches"}
+]
 # Customers (in-memory)
 customers = []
 
