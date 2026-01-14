@@ -344,3 +344,32 @@ footer {
         height: 200px;
     }
 }
+
+/* ===== CAROUSEL ===== */
+.carousel {
+    width: 100%;
+    height: 250px;        /* SPACE YAHI SE AAYEGA */
+    overflow: hidden;
+    position: relative;
+}
+
+.slides {
+    display: flex;
+    width: 300%;
+    height: 100%;
+    animation: slide 9s infinite;
+}
+
+.slides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Animation */
+@keyframes slide {
+    0% { transform: translateX(0); }
+    33% { transform: translateX(-100%); }
+    66% { transform: translateX(-200%); }
+    100% { transform: translateX(0); }
+}
