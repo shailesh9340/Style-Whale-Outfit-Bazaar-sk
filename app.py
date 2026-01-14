@@ -16,8 +16,8 @@ ADMIN_PASSWORD = "1234"
 
 # Sample outfits (initial)
 outfits = [
-    {"name": "Men’s Black Leather Jacket", "link": "#", "category": "boys", "image": "static/images/black_leather_jacket.jpg", "price": 2999},
-    {"name": "Women’s Floral Dress", "link": "#", "category": "girls", "image": "static/images/floral_dress.jpg", "price": 1599}
+    {"category": "boys wear"},
+    {"category": "girls wear"}
 ]
 
 # Customers (in-memory)
