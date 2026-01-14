@@ -13,18 +13,25 @@
     </header>
 
     <section>
-        <h2>Add New Outfit</h2>
-        <form method="POST" enctype="multipart/form-data">
-            Name: <input type="text" name="name" required><br><br>
-            Link: <input type="text" name="link" required><br><br>
-            Category: 
-            <select name="category">
-                <option value="boys">Boys</option>
-                <option value="girls">Girls</option>
-            </select><br><br>
-            Image: <input type="file" name="image" required><br><br>
-            <input type="submit" value="Add Outfit">
-        </form>
+        
+    <h2>Add New Outfit</h2>
+    <form method="POST" enctype="multipart/form-data">
+        Name: <input type="text" name="name" required><br><br>
+
+        Price (₹): <input type="number" name="price" required><br><br>
+
+        Link: <input type="text" name="link" required><br><br>
+
+        Category: 
+        <select name="category">
+            <option value="boys">Boys</option>
+            <option value="girls">Girls</option>
+        </select><br><br>
+
+        Image: <input type="file" name="image" required><br><br>
+
+        <input type="submit" value="Add Outfit">
+    </form>
     </section>
 
     <section>
